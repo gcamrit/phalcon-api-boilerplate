@@ -3,10 +3,12 @@
 return [
     // Database configuration
     'database' => [
-        'host' => 'mysql',
+        'adapter'  => 'mysql',
+        'host'     => 'mysql',
+        'dbname'   => 'blog',
+        'port'     => 3306,
         'username' => 'root',
         'password' => 'root',
-        'dbname' => 'hello',
     ],
 
     // Application configuration

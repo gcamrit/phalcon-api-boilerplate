@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Db\Adapter\Pdo\Factory;
 
 /**
  * \App\Providers\DatabaseServiceProvider
@@ -27,8 +27,7 @@ class DatabaseServiceProvider extends AbstractServiceProvider
         $this->di->setShared(
             $this->serviceName,
             function () {
-                /** @var \Phalcon\DiInterface $this */
-                $connection = new Mysql($this->getShared('config')->database->toArray());
+                $connection = Factory::load($this->getShared('config')->database->toArray());
 
                 return $connection;
             }
