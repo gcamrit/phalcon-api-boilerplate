@@ -5,6 +5,7 @@ namespace App;
 use App\Providers\ServiceProviderInterface;
 use Phalcon\Di;
 use Phalcon\DiInterface;
+use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Application;
 
 class Bootstrap
@@ -77,14 +78,7 @@ class Bootstrap
         }
     }
 
-    /**
-     * Initialize the Service in the Dependency Injector Container.
-     *
-     * @param ServiceProviderInterface $serviceProvider
-     *
-     * @return $this
-     */
-    protected function initializeService(ServiceProviderInterface $serviceProvider)
+    protected function initializeService(ServiceProviderInterface $serviceProvider) :self
     {
         $serviceProvider->register();
         $this->serviceProviders[$serviceProvider->getName()] = $serviceProvider;
@@ -92,12 +86,7 @@ class Bootstrap
         return $this;
     }
 
-    /**
-     * Gets the Dependency Injector.
-     *
-     * @return Di
-     */
-    public function getDi()
+    public function getDi() : Di
     {
         return $this->di;
     }
@@ -112,30 +101,8 @@ class Bootstrap
         return $this->applicationPath;
     }
 
-    /**
-     * Runs the Application
-     *
-     * @return string
-     */
-    public function run()
+    public function run() : ResponseInterface
     {
-        return $this->getOutput();
-    }
-
-    /**
-     * Get application output.
-     *
-     * @return string
-     */
-    protected function getOutput()
-    {
-        /**
-         * @TODO Handle with Error Handler
-         */
-        if ($this->app instanceof Application) {
-            return $this->app->handle()->getContent();
-        }
-
-        return $this->app->handle();
+        return $this->app->handle()->send();
     }
 }
